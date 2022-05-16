@@ -10,28 +10,22 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class StepDefinitions {
 
     WebDriver driver;
-
-    @Given("test given step")
-    public void test_given_step() {
-        System.out.println("I am given...");
-    }
-    @And("hit when step")
-    public void hit_when_step() {
-        System.out.println("I am When...");
-    }
-    @And("I should see condition")
-    public void i_should_see_condition() {
-        System.out.println("I am then...");
-    }
-
     @Given("I open {string}")
     public void i_open(String url) {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        String browser = System.getProperty("browser","chrome");
+        System.out.println(" driver going to use is " + browser);
+        if(browser.contains("chrome")) {
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
+        }else if(browser.contains("ff") || browser.contains("firefox")){
+            WebDriverManager.firefoxdriver().setup();
+            driver = new FirefoxDriver();
+        }
         driver.get(url);
     }
     @When("I enter incorrect username and password")
